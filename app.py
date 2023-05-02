@@ -108,6 +108,26 @@ def view_transaction(row_id):
     return data, 200
 
 
+# Delete a transaction
+@app.route("/delete/<row_id>", methods=['DELETE'])
+def delete_transaction(row_id):
+
+    # Get connection and create curosor
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Delete transaction data from database
+    cur.execute('DELETE FROM transactions WHERE id = %s',
+                row_id)
+    conn.commit()
+
+    # Close cursor and connection with database
+    cur.close()
+    conn.close()
+
+    return "Transaction deleted", 200
+
+
 if __name__ == "__main__":
 
     app.run(debug=True)
