@@ -43,6 +43,33 @@ def add_transaction():
     return 'Transaction recorded', 200
 
 
+# Edit a transaction
+@app.route("/edit/<row_id>", methods=['POST'])
+def edit_transaction(row_id):
+
+    data = request.get_json()
+
+    # Get connection and create curosor
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Insert transaction data into database
+    cur.execute('UPDATE transactions SET date = %s, vendor = %s, category = %s, amount = %s, notes = %s WHERE id = %s',
+                (data['date'],
+                 data['vendor'],
+                 data['category'],
+                 data['amount'],
+                 data['notes'],
+                 row_id))
+    conn.commit()
+
+    # Close cursor and connection with database
+    cur.close()
+    conn.close()
+
+    return 'Transaction edited', 200
+
+
 if __name__ == "__main__":
 
     app.run(debug=True)
