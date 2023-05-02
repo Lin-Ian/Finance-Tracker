@@ -88,6 +88,26 @@ def view_transactions():
     return data, 200
 
 
+# View a transaction
+@app.route("/view/<row_id>", methods=['GET'])
+def view_transaction(row_id):
+
+    # Get connection and create curosor
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Insert transaction data into database
+    cur.execute('SELECT * FROM transactions WHERE id = %s',
+                row_id)
+    data = cur.fetchall()
+
+    # Close cursor and connection with database
+    cur.close()
+    conn.close()
+
+    return data, 200
+
+
 if __name__ == "__main__":
 
     app.run(debug=True)
