@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import psycopg2
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 load_dotenv()
 
@@ -68,6 +68,24 @@ def edit_transaction(row_id):
     conn.close()
 
     return 'Transaction edited', 200
+
+
+# View all transactions
+@app.route("/view", methods=['GET'])
+def view_transactions():
+    # Get connection and create curosor
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Get all transaction data from database
+    cur.execute('SELECT * FROM transactions')
+    data = cur.fetchall()
+
+    # Close cursor and connection with database
+    cur.close()
+    conn.close()
+
+    return data, 200
 
 
 if __name__ == "__main__":
