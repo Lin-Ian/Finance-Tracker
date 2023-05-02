@@ -22,7 +22,7 @@ def add_transaction():
 
     data = request.get_json()
 
-    # Get connection and create curosor
+    # Get connection and create cursor
     conn = get_db_connection()
     cur = conn.cursor()
 
@@ -53,7 +53,7 @@ def edit_transaction(row_id):
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Insert transaction data into database
+    # Edit transaction in database
     cur.execute('UPDATE transactions SET date = %s, vendor = %s, category = %s, amount = %s, notes = %s WHERE id = %s',
                 (data['date'],
                  data['vendor'],
@@ -73,7 +73,7 @@ def edit_transaction(row_id):
 # View all transactions
 @app.route("/view", methods=['GET'])
 def view_transactions():
-    # Get connection and create curosor
+    # Get connection and create cursor
     conn = get_db_connection()
     cur = conn.cursor()
 
@@ -92,11 +92,11 @@ def view_transactions():
 @app.route("/view/<row_id>", methods=['GET'])
 def view_transaction(row_id):
 
-    # Get connection and create curosor
+    # Get connection and create cursor
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Insert transaction data into database
+    # Get a transaction from database
     cur.execute('SELECT * FROM transactions WHERE id = %s',
                 row_id)
     data = cur.fetchall()
@@ -112,7 +112,7 @@ def view_transaction(row_id):
 @app.route("/delete/<row_id>", methods=['DELETE'])
 def delete_transaction(row_id):
 
-    # Get connection and create curosor
+    # Get connection and create cursor
     conn = get_db_connection()
     cur = conn.cursor()
 
