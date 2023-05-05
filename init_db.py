@@ -8,7 +8,7 @@ load_dotenv()
 # Connect to database
 conn = psycopg2.connect(
         host="localhost",
-        database="transactions",
+        database="finance_tracker",
         user=os.environ['DB_USERNAME'],
         password=os.environ['DB_PASSWORD'])
 
@@ -73,6 +73,73 @@ args = ','.join(cur.mogrify("(%s, %s)", i).decode('utf-8') for i in income_data)
 # Insert data into the table
 cur.execute('INSERT INTO income (subcategory, category) VALUES ' + args)
 
+# Execute a command: this creates a new table
+cur.execute('DROP TABLE IF EXISTS expenses;')
+cur.execute('CREATE TABLE expenses (subcategory varchar (50) NOT NULL,'
+                                    'category varchar (50) NOT NULL);'
+            )
+
+expense_data = [
+    ('Mortgage Payment/Rent', 'Housing'),
+    ('Property Taxes', 'Housing'),
+    ('Maintenance Fees', 'Housing'),
+    ('Housing Miscellaneous', 'Housing'),
+    ('Gas & Fuel', 'Transportation'),
+    ('Parking', 'Transportation'),
+    ('Service & Auto Parts', 'Transportation'),
+    ('Auto Payment', 'Transportation'),
+    ('Auto Insurance', 'Transportation'),
+    ('Public Transit', 'Transportation'),
+    ('Transportation Miscellaneous', 'Transportation'),
+    ('Groceries', 'Food'),
+    ('Dining Out', 'Food'),
+    ('Alcohol', 'Food'),
+    ('Food Misc', 'Food'),
+    ('Utilities', 'Utilties'),
+    ('Water', 'Utilties'),
+    ('Gas', 'Utilties'),
+    ('Electricity', 'Utilties'),
+    ('Utilties Misc', 'Utilties'),
+    ('Television', 'Bills'),
+    ('Home Phone', 'Bills'),
+    ('Internet', 'Bills'),
+    ('Mobile Phone', 'Bills'),
+    ('Bills Miscellaneous', 'Bills'),
+    ('Insurance', 'Insurance'),
+    ('Doctor', 'Health'),
+    ('Dentist', 'Health'),
+    ('Pharmacy', 'Health'),
+    ('Physiotherapy', 'Health'),
+    ('Optometry', 'Health'),
+    ('Heath Miscellaneous', 'Health'),
+    ('Saving', 'Investment'),
+    ('TFSA', 'Investment'),
+    ('RRSP', 'Investment'),
+    ('Non - registered', 'Investment'),
+    ('Emergency Fund', 'Investment'),
+    ('Debt Repayment', 'Investment'),
+    ('Invest Miscellaneous', 'Investment'),
+    ('Clothing', 'Personal'),
+    ('Home Decore and Furniture', 'Personal'),
+    ('Fitness', 'Personal'),
+    ('Personal Miscellaneous', 'Personal'),
+    ('Subscriptions', 'Entertainment'),
+    ('Entertainment Miscellaneous', 'Entertainment'),
+    ('Tuition', 'Education'),
+    ('Student Fees', 'Education'),
+    ('Books & Supplies', 'Education'),
+    ('Donations', 'Donations'),
+    ('Federal Tax', 'Taxes'),
+    ('Provincial Tax', 'Taxes'),
+    ('Finance Fees', 'Miscellaneous'),
+    ('Miscellaneous', 'Miscellaneous')
+]
+
+# cursor.mogrify() to insert multiple values
+args = ','.join(cur.mogrify("(%s, %s)", i).decode('utf-8') for i in expense_data)
+
+# Insert data into the table
+cur.execute('INSERT INTO expenses (subcategory, category) VALUES ' + args)
 
 conn.commit()
 
