@@ -21,7 +21,7 @@ cur.execute('CREATE TABLE transactions (id serial PRIMARY KEY,'
                                         'date date NOT NULL,'
                                         'vendor varchar (50) NOT NULL,'
                                         'category varchar (50) NOT NULL,'
-                                        'amount money NOT NULL,'
+                                        'amount decimal NOT NULL,'
                                         'notes varchar (100));'
             )
 
