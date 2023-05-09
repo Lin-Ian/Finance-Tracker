@@ -46,9 +46,17 @@ def view():
 
     try:
         sort_by = request.form['sort_by']
-    except:
+    except KeyError:
         sort_by = 'default'
-        print("No value given to sort_by")
+
+    try:
+        start_date = request.form['start_date']
+        start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
+        end_date = request.form['start_date']
+        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
+    except KeyError:
+        start_date = None
+        end_date = None
 
     # Get connection and create cursor
     conn = get_db_connection()
