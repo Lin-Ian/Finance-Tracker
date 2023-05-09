@@ -19,7 +19,26 @@ def get_db_connection():
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+    # Get connection and create cursor
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Get the subcategories from the expenses table
+    cur.execute('SELECT subcategory FROM expenses')
+    expense_categories = cur.fetchall()
+
+    # Get the subcategories from the income table
+    cur.execute('SELECT subcategory FROM income')
+    income_categories = cur.fetchall()
+
+    # Combine categories from both tables
+    categories = expense_categories + income_categories
+
+    # Close cursor and connection with database
+    cur.close()
+    conn.close()
+
+    return render_template('home.html', categories=categories)
 
 
 @app.route("/view")
