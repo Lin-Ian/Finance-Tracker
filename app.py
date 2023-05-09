@@ -47,7 +47,7 @@ def view():
     try:
         sort_by = request.form['sort_by']
     except:
-        sort_by = 'id_inc'
+        sort_by = 'default'
         print("No value given to sort_by")
 
     # Get connection and create cursor
@@ -56,7 +56,7 @@ def view():
 
     # Sort transactions from database
     cur.execute('SELECT * FROM transactions ORDER BY %s' %
-                {'id_inc': 'id ASC', 'date_desc': 'date DESC', 'date_inc': 'date ASC',
+                {'default': 'id ASC', 'date_desc': 'date DESC', 'date_inc': 'date ASC',
                  'amount_desc': 'amount DESC', 'amount_inc': 'amount ASC'}[sort_by])
     data = cur.fetchall()
 
