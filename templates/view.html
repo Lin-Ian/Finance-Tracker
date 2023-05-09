@@ -24,6 +24,13 @@
         <input type="date" id="start_date" name="start_date">
         <label for="start_date">End Date:</label>
         <input type="date" id="end_date" name="end_date">
+        <br>
+        <select name="category">
+            <option value="" disabled selected>Category</option>
+            {% for category in categories %}
+                <option value="{{category[0]}}">{{category[0]}}</option>
+            {% endfor %}
+        </select>
         <input type="submit" value="Submit">
     </form>
 
