@@ -51,9 +51,9 @@ def view():
 
     try:
         start_date = request.form['start_date']
-        start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
-        end_date = request.form['start_date']
-        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
+        start_date = str(datetime.datetime.strptime(start_date, '%Y-%m-%d').date())
+        end_date = request.form['end_date']
+        end_date = str(datetime.datetime.strptime(end_date, '%Y-%m-%d').date())
     except KeyError:
         start_date = None
         end_date = None
@@ -63,10 +63,17 @@ def view():
     cur = conn.cursor()
 
     # Sort transactions from database
-    cur.execute('SELECT * FROM transactions ORDER BY %s' %
+    cur.execute('CREATE VIEW sorted_transactions AS SELECT * FROM transactions ORDER BY %s' %
                 {'default': 'id ASC', 'date_desc': 'date DESC', 'date_inc': 'date ASC',
                  'amount_desc': 'amount DESC', 'amount_inc': 'amount ASC'}[sort_by])
+    # Get the filtered transactions
+    cur.execute('SELECT * FROM sorted_transactions')
     data = cur.fetchall()
+
+    # Filter transactions within a date range if date is provided
+    if not (start_date is None and end_date is None):
+        cur.execute('SELECT * FROM sorted_transactions WHERE date >= %s AND date <= %s', (start_date, end_date))
+        data = cur.fetchall()
 
     # Get the subcategories from the expenses table
     cur.execute('SELECT subcategory FROM expenses')
