@@ -41,21 +41,41 @@ def home():
     return render_template('home.html', categories=categories)
 
 
-@app.route("/view")
+@app.route("/view", methods=['GET', 'POST'])
 def view():
+
+    try:
+        sort_by = request.form['sort_by']
+    except:
+        sort_by = 'id_inc'
+        print("No value given to sort_by")
+
     # Get connection and create cursor
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Insert transaction data into database
-    cur.execute('SELECT * FROM transactions')
+    # Sort transactions from database
+    cur.execute('SELECT * FROM transactions ORDER BY %s' %
+                {'id_inc': 'id ASC', 'date_desc': 'date DESC', 'date_inc': 'date ASC',
+                 'amount_desc': 'amount DESC', 'amount_inc': 'amount ASC'}[sort_by])
     data = cur.fetchall()
+
+    # Get the subcategories from the expenses table
+    cur.execute('SELECT subcategory FROM expenses')
+    expense_categories = cur.fetchall()
+
+    # Get the subcategories from the income table
+    cur.execute('SELECT subcategory FROM income')
+    income_categories = cur.fetchall()
+
+    # Combine categories from both tables
+    categories = expense_categories + income_categories
 
     # Close cursor and connection with database
     cur.close()
     conn.close()
 
-    return render_template('view.html', data=data)
+    return render_template('view.html', data=data, categories=categories)
 
 
 # Add a transaction
