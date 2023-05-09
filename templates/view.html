@@ -23,28 +23,34 @@
 
     {% for row in data %}
     <tr>
-      <td>{{ row[0] }}</td>
-      <td>{{ row[1] }}</td>
-      <td>{{ row[2] }}</td>
-      <td>{{ row[3] }}</td>
-      <td>{{ row[4] }}</td>
-      <td>{{ row[5] }}</td>
+<!--        <td>{{ row[0] }}</td>-->
+<!--        <td>{{ row[1] }}</td>-->
+<!--        <td>{{ row[2] }}</td>-->
+<!--        <td>{{ row[3] }}</td>-->
+<!--        <td>{{ row[4] }}</td>-->
+<!--        <td>{{ row[5] }}</td>-->
 
-      <td>
-        <form action="/update" method="post">
-          <input type="hidden" name="id" value="{{ row[0] }}">
-          <input type="date" name="date" value="{{ row[1] }}">
-          <input type="text" name="vendor" value="{{ row[2] }}">
-          <input type="text" name="category" value="{{ row[3] }}">
-          <input type="number" name="amount" step=0.01 value="{{ row[4] }}">
-          <input type="text" name="note" value="{{ row[5] }}">
-          <input type="submit" value="Update">
+        <td>
+            <form action="/update" method="post">
+            <input type="hidden" name="id" value="{{ row[0] }}">
+            <input type="date" name="date" value="{{ row[1] }}">
+            <input type="text" name="vendor" value="{{ row[2] }}">
+            <select name="category" id="category">
+                <option value="{{ row[3] }}">{{ row[3] }}</option>
+                {% for category in categories %}
+                    <option value={{category[0]}}>{{category[0]}}</option>
+                {% endfor %}
+            </select>
+<!--            <input type="text" name="category" value="{{ row[3] }}">-->
+            <input type="number" name="amount" step=0.01 value="{{ row[4] }}">
+            <input type="text" name="note" value="{{ row[5] }}">
+            <input type="submit" value="Update">
         </form>
         <form action="/delete" method="post">
-          <input type="hidden" name="id" value="{{ row[0] }}">
-          <input type="submit" value="Delete">
+            <input type="hidden" name="id" value="{{ row[0] }}">
+            <input type="submit" value="Delete">
         </form>
-      </td>
+        </td>
     </tr>
     {% endfor %}
 
