@@ -160,30 +160,6 @@ def delete_transaction():
     return redirect(url_for('view'))
 
 
-# Sort transactions
-@app.route("/sort", methods=['GET', 'POST'])
-def sort_transactions():
-
-    sort_by = request.form['sort_by']
-
-    # Get connection and create cursor
-    conn = get_db_connection()
-    cur = conn.cursor()
-
-    # Sort transactions from database
-    cur.execute('SELECT * FROM transactions ORDER BY %s' %
-                {'date_desc': 'date DESC', 'date_inc': 'date ASC',
-                 'amount_desc': 'amount DESC', 'amount_inc': 'amount ASC'}[sort_by])
-    data = cur.fetchall()
-
-    # Close cursor and connection with database
-    cur.close()
-    conn.close()
-
-    return render_template('view.html', data=data)
-    # return redirect(url_for('home'))
-
-
 if __name__ == "__main__":
 
     app.run(debug=True)
