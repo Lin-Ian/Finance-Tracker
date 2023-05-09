@@ -57,6 +57,9 @@ def view():
     except KeyError:
         start_date = None
         end_date = None
+    except ValueError:
+        start_date = None
+        end_date = None
 
     # Get connection and create cursor
     conn = get_db_connection()
