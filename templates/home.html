@@ -12,7 +12,12 @@
     <form action="/add" method="post">
         <input type="date" id="date" name="date">
         <input type="text" name="vendor" placeholder="Vendor">
-        <input type="text" name="category" placeholder="Category">
+        <select name="category" id="category">
+            <option value="" disabled selected>Category</option>
+            {% for category in categories %}
+                <option value={{category[0]}}>{{category[0]}}</option>
+            {% endfor %}
+        </select>
         <input type="number" step="0.01" name="amount" placeholder="Amount">
         <input type="text" name="note" placeholder="Note">
         <input type="submit" value="Submit">
