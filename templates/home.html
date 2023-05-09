@@ -15,7 +15,7 @@
         <select name="category" id="category">
             <option value="" disabled selected>Category</option>
             {% for category in categories %}
-                <option value={{category[0]}}>{{category[0]}}</option>
+                <option value="{{category[0]}}">{{category[0]}}</option>
             {% endfor %}
         </select>
         <input type="number" step="0.01" name="amount" placeholder="Amount">
