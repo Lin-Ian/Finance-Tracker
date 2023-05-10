@@ -220,6 +220,9 @@ def upload_transactions():
         cur.close()
         conn.close()
 
+        # Remove file after contents uploaded to database
+        os.remove(filename)
+
     return render_template("upload.html", message=message, filename=filename)
 
 
