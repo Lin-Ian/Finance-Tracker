@@ -10,8 +10,10 @@
 
     <h2>Transactions</h2>
 
+    <!--Filter menu-->
     <form action="/view" method="post">
         <label for="sort_by">Sort By:</label>
+        <!--Sort by menu-->
         <select name="sort_by" id="sort_by">
             <option value="default">Default</option>
             <option value="date_desc">Date Newest</option>
@@ -20,11 +22,14 @@
             <option value="amount_inc">Amount Increasing</option>
         </select>
         <br>
+        <!--Start date-->
         <label for="start_date">Start Date:</label>
         <input type="date" id="start_date" name="start_date">
-        <label for="start_date">End Date:</label>
+        <!--End Date-->
+        <label for="end_date">End Date:</label>
         <input type="date" id="end_date" name="end_date">
         <br>
+        <!--Category-->
         <select name="category">
             <option value="" disabled selected>Category</option>
             {% for category in categories %}
@@ -36,6 +41,7 @@
         <input type="submit" value="Submit">
     </form>
 
+    <!--Display Transactions-->
     {% for row in data %}
     <tr>
 <!--        <td>{{ row[0] }}</td>-->
@@ -46,21 +52,29 @@
 <!--        <td>{{ row[5] }}</td>-->
 
         <td>
+            <!--One row of data-->
             <form action="/update" method="post">
+            <!--Id column-->
             <input type="hidden" name="id" value="{{ row[0] }}">
+            <!--Date column-->
             <input type="date" name="date" value="{{ row[1] }}">
+            <!--Vendor column-->
             <input type="text" name="vendor" value="{{ row[2] }}">
+            <!--Category column-->
             <select name="category" id="category">
                 <option value="{{ row[3] }}">{{ row[3] }}</option>
                 {% for category in categories %}
                     <option value="{{category[0]}}">{{category[0]}}</option>
                 {% endfor %}
             </select>
-<!--            <input type="text" name="category" value="{{ row[3] }}">-->
+            <!--Amount column-->
             <input type="number" name="amount" step=0.01 value="{{ row[4] }}">
+            <!--Notes column-->
             <input type="text" name="note" value="{{ row[5] }}">
             <input type="submit" value="Update">
         </form>
+
+        <!--Delete transaction-->
         <form action="/delete" method="post">
             <input type="hidden" name="id" value="{{ row[0] }}">
             <input type="submit" value="Delete">
