@@ -55,10 +55,7 @@ def view():
         start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
         end_date = request.form['end_date']
         end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
-    except KeyError:
-        start_date = None
-        end_date = None
-    except ValueError:
+    except (KeyError, ValueError):
         start_date = None
         end_date = None
 
@@ -81,9 +78,7 @@ def view():
         if min_amount == '':
             min_amount = None
         min_amount = float(min_amount)
-    except KeyError:
-        min_amount = None
-    except TypeError:
+    except (KeyError, TypeError):
         min_amount = None
 
     try:
@@ -91,9 +86,7 @@ def view():
         if max_amount == '':
             max_amount = None
         max_amount = float(max_amount)
-    except KeyError:
-        max_amount = None
-    except TypeError:
+    except (KeyError, TypeError):
         max_amount = None
 
     # Get connection and create cursor
