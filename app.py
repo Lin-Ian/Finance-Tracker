@@ -69,6 +69,13 @@ def view():
     except KeyError:
         category = None
 
+    try:
+        vendor = request.form['vendor']
+        if vendor == '':
+            vendor = None
+    except KeyError:
+        vendor = None
+
     # Get connection and create cursor
     conn = get_db_connection()
     cur = conn.cursor()
@@ -88,6 +95,9 @@ def view():
         sort_by = {'default': ['id', True], 'date_desc': ['date', False], 'date_inc': ['date', True],
                    'amount_desc': ['amount', False], 'amount_inc': ['amount', True]}[sort_by]
         data_df = data_df.sort_values(by=sort_by[0], ascending=sort_by[1])
+
+    if vendor is not None:
+        data_df = data_df[data_df['vendor'] == vendor]
 
     data = data_df.values.tolist()
 
