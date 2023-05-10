@@ -195,7 +195,7 @@ def upload_transactions():
         file = request.files['file']
         filename = file.filename
         file.save(filename)
-        message = "File uploaded successfully"
+        message = "Transactions uploaded successfully"
     except KeyError:
         filename = ""
         message = ""
