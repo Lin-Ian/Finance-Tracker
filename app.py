@@ -179,8 +179,7 @@ def delete_transaction():
     cur = conn.cursor()
 
     # Delete transaction data from database
-    cur.execute('DELETE FROM transactions WHERE id = %s',
-                row_id)
+    cur.execute('DELETE FROM transactions WHERE id = %s' % row_id)
     conn.commit()
 
     # Close cursor and connection with database
