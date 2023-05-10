@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
 import datetime
+import pandas as pd
 
 load_dotenv()
 
@@ -199,6 +200,10 @@ def upload_transactions():
     except KeyError:
         filename = ""
         message = ""
+
+    if filename != "":
+        # Read csv file
+        data = pd.read_csv(filename)
 
     return render_template("upload.html", message=message, filename=filename)
 
