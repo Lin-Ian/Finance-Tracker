@@ -204,6 +204,22 @@ def upload_transactions():
     if filename != "":
         # Read csv file
         data = pd.read_csv(filename)
+        data = data.fillna('')
+
+        # Get connection and create cursor
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # Insert data from csv file
+        for col, row in data.iterrows():
+            values = (row['date'], row['vendor'], row['category'], row['amount'], row['notes'])
+            cur.execute('INSERT INTO transactions (date, vendor, category, amount, notes)'
+                        'VALUES (%s, %s, %s, %s, %s)', values)
+        conn.commit()
+
+        # Close cursor and connection with database
+        cur.close()
+        conn.close()
 
     return render_template("upload.html", message=message, filename=filename)
 
