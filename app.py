@@ -52,9 +52,9 @@ def view():
 
     try:
         start_date = request.form['start_date']
-        start_date = str(datetime.datetime.strptime(start_date, '%Y-%m-%d').date())
+        start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
         end_date = request.form['end_date']
-        end_date = str(datetime.datetime.strptime(end_date, '%Y-%m-%d').date())
+        end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
     except KeyError:
         start_date = None
         end_date = None
@@ -73,22 +73,23 @@ def view():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Sort transactions from database
-    cur.execute('CREATE VIEW sorted_transactions AS SELECT * FROM transactions ORDER BY %s' %
-                {'default': 'id ASC', 'date_desc': 'date DESC', 'date_inc': 'date ASC',
-                 'amount_desc': 'amount DESC', 'amount_inc': 'amount ASC'}[sort_by])
-    # Get the filtered transactions
-    cur.execute('SELECT * FROM sorted_transactions')
-    data = cur.fetchall()
+    cur.execute('SELECT * FROM transactions')
+    data_df = pd.DataFrame(cur.fetchall())
+    data_df.columns = [x[0] for x in cur.description]
 
-    # Filter transactions within a date range if date is provided
+    # Get the transactions within a date range
     if not (start_date is None and end_date is None):
-        cur.execute('SELECT * FROM sorted_transactions WHERE date >= %s AND date <= %s AND category = %s',
-                    (start_date, end_date, category))
+        data_df = data_df[(data_df['date'] >= start_date) & (data_df['date'] <= end_date)]
 
-    elif category is not None:
-        cur.execute("SELECT * FROM sorted_transactions WHERE category = '%s'" % category)
-        data = cur.fetchall()
+    if category is not None:
+        data_df = data_df[data_df['category'] == category]
+
+    if sort_by != 'default':
+        sort_by = {'default': ['id', True], 'date_desc': ['date', False], 'date_inc': ['date', True],
+                   'amount_desc': ['amount', False], 'amount_inc': ['amount', True]}[sort_by]
+        data_df = data_df.sort_values(by=sort_by[0], ascending=sort_by[1])
+
+    data = data_df.values.tolist()
 
     # Get the subcategories from the expenses table
     cur.execute('SELECT subcategory FROM expenses')
