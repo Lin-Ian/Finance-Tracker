@@ -38,6 +38,9 @@
         </select>
         <br>
         <input type="text" name="vendor" id="vendor" placeholder="Vendor">
+        <br>
+        <input type="number" step=0.01 name="min_amount" id="min_amount" placeholder="Minimum Amount">
+        <input type="number" step=0.01 name="max_amount" id="max_amount" placeholder="Maximum Amount">
         <input type="submit" value="Submit">
     </form>
 
@@ -51,6 +54,7 @@
 <!--        <td>{{ row[4] }}</td>-->
 <!--        <td>{{ row[5] }}</td>-->
 
+        <!--Update transactions-->
         <td>
             <!--One row of data-->
             <form action="/update" method="post">

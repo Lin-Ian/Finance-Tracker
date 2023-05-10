@@ -76,6 +76,26 @@ def view():
     except KeyError:
         vendor = None
 
+    try:
+        min_amount = request.form['min_amount']
+        if min_amount == '':
+            min_amount = None
+        min_amount = float(min_amount)
+    except KeyError:
+        min_amount = None
+    except TypeError:
+        min_amount = None
+
+    try:
+        max_amount = request.form['max_amount']
+        if max_amount == '':
+            max_amount = None
+        max_amount = float(max_amount)
+    except KeyError:
+        max_amount = None
+    except TypeError:
+        max_amount = None
+
     # Get connection and create cursor
     conn = get_db_connection()
     cur = conn.cursor()
@@ -98,6 +118,15 @@ def view():
 
     if vendor is not None:
         data_df = data_df[data_df['vendor'] == vendor]
+
+    if min_amount is not None and max_amount is not None:
+        data_df = data_df[(data_df['amount'] > min_amount) & (data_df['amount'] < max_amount)]
+
+    if min_amount is None and max_amount is not None:
+        data_df = data_df[data_df['amount'] < max_amount]
+
+    if min_amount is not None and max_amount is None:
+        data_df = data_df[data_df['amount'] > min_amount]
 
     data = data_df.values.tolist()
 
