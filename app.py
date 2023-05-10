@@ -61,6 +61,13 @@ def view():
         start_date = None
         end_date = None
 
+    try:
+        category = request.form['category']
+        if category == 'Category':
+            category = ""
+    except KeyError:
+        category = None
+
     # Get connection and create cursor
     conn = get_db_connection()
     cur = conn.cursor()
@@ -75,7 +82,11 @@ def view():
 
     # Filter transactions within a date range if date is provided
     if not (start_date is None and end_date is None):
-        cur.execute('SELECT * FROM sorted_transactions WHERE date >= %s AND date <= %s', (start_date, end_date))
+        cur.execute('SELECT * FROM sorted_transactions WHERE date >= %s AND date <= %s AND category = %s',
+                    (start_date, end_date, category))
+
+    elif category is not None:
+        cur.execute("SELECT * FROM sorted_transactions WHERE category = '%s'" % category)
         data = cur.fetchall()
 
     # Get the subcategories from the expenses table
