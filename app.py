@@ -189,10 +189,18 @@ def delete_transaction():
     return redirect(url_for('view'))
 
 
-@app.route("/upload")
+@app.route("/upload", methods=['GET', 'POST'])
 def upload_transactions():
+    try:
+        file = request.files['file']
+        filename = file.filename
+        file.save(filename)
+        message = "File uploaded successfully"
+    except KeyError:
+        filename = ""
+        message = ""
 
-    return render_template('upload.html')
+    return render_template("upload.html", message=message, filename=filename)
 
 
 if __name__ == "__main__":

@@ -5,6 +5,11 @@
     <title>Finance Tracker</title>
 </head>
 <body>
-
+    <form action = "/upload" method = "post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv"/>
+        <input type = "submit" value="Upload">
+    </form>
+    {{message}}
+    {{filename}}
 </body>
 </html>
