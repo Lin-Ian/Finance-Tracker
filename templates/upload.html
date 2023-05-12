@@ -10,12 +10,20 @@
 
     <h2>Upload Transactions</h2>
 
-    <form action = "/upload" method = "post" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv"/>
-        <input type = "submit" value="Upload">
-    </form>
-    {{message}}
-    {{filename}}
+    <div class="upload">
+        <form action = "/upload" method = "post" enctype="multipart/form-data">
+            <label for="file">Browse File to Upload
+            <input type="file" name="file" id="file" accept=".csv"/>
+            </label>
+            <br>
+            <input type = "submit" value="Upload">
+        </form>
+        <div class="message">
+            {{message}}
+            {{filename}}
+        </div>
+
+    </div>
 
     {% endblock %}
 

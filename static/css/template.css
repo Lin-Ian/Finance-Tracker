@@ -111,3 +111,39 @@
 .main .view input[type=submit] {
     width: 100px;
 }
+
+.main .upload {
+    background-color: #D9D9D9;
+    text-align: center;
+    padding: 40px;
+    font-size: 28px;
+    border-radius: 40px;
+}
+
+.main .upload form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    border-style: dashed;
+}
+
+.main .upload input[type=file] {
+    display: none;
+}
+
+.main .upload label {
+    cursor: pointer;
+    font-size: 48px;
+}
+
+.main .upload input[type=submit] {
+    font-size: 24px;
+    width: 140px;
+    height: 65px;
+    border-radius: 5px;
+    margin-top: 30px;
+}
+
+.main .upload .message {
+    margin-top: 20px;
+}
