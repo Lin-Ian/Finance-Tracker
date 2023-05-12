@@ -152,23 +152,35 @@ def add_transaction():
         date = datetime.date.today()
 
     vendor = request.form['vendor']
-    category = request.form['category']
+
+    try:
+        category = request.form['category']
+    except KeyError:
+        category = ''
+
     amount = request.form['amount']
+
     note = request.form['note']
 
-    # Get connection and create cursor
-    conn = get_db_connection()
-    cur = conn.cursor()
+    missing_fields = False
 
-    # Insert transaction data into database
-    cur.execute('INSERT INTO transactions (date, vendor, category, amount, notes)'
-                'VALUES (%s, %s, %s, %s, %s)',
-                (date, vendor, category, amount, note))
-    conn.commit()
+    if vendor == '' or vendor == '' or amount == '':
+        missing_fields = True
 
-    # Close cursor and connection with database
-    cur.close()
-    conn.close()
+    if not missing_fields:
+        # Get connection and create cursor
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # Insert transaction data into database
+        cur.execute('INSERT INTO transactions (date, vendor, category, amount, notes)'
+                    'VALUES (%s, %s, %s, %s, %s)',
+                    (date, vendor, category, amount, note))
+        conn.commit()
+
+        # Close cursor and connection with database
+        cur.close()
+        conn.close()
 
     # return 'Transaction recorded', 200
     return redirect(url_for('home'))
