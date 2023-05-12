@@ -18,10 +18,11 @@
 }
 
 .sidenav a {
-  padding: 5px 10px 5px 20px;
-  text-decoration: none;
-  font-size: 24px;
-  display: block;
+    padding: 5px 10px 5px 20px;
+    text-decoration: none;
+    font-size: 24px;
+    display: block;
+    color: black;
 }
 
 .main {
@@ -113,6 +114,10 @@
     height: 30px;
     border-radius: 30px;
     font-size: 14px;
+}
+
+.main .view .entry form {
+    display: inline;
 }
 
 .main .view input[type=submit] {
