@@ -145,13 +145,15 @@ def view():
 @app.route("/add", methods=['POST'])
 def add_transaction():
 
-    date = request.form['date']
-    date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+    try:
+        date = request.form['date']
+        date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+    except (KeyError, ValueError):
+        date = datetime.date.today()
 
     vendor = request.form['vendor']
     category = request.form['category']
     amount = request.form['amount']
-    print(type(amount))
     note = request.form['note']
 
     # Get connection and create cursor
