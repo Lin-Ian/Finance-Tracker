@@ -278,9 +278,6 @@ def upload_transactions():
         # Remove file after contents uploaded to database
         os.remove(filename)
 
-    else:
-        message = "Please attach a file to upload"
-
     return render_template("upload.html", message=message, filename=filename)
 
 
