@@ -9,6 +9,7 @@
     background-color: #D9D9D9;
     overflow-x: hidden;
     padding-top: 20px;
+    font-family: "Inter";
 }
 
 .sidenav h1 {
@@ -27,6 +28,7 @@
     margin-left: max(300px, 25%);
     /*padding: 0 50px 0 50px;*/
     margin-right: 100px;
+    font-family: "Inter";
 }
 
 .main h2 {
