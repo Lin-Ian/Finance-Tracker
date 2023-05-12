@@ -190,8 +190,11 @@ def add_transaction():
 @app.route("/update", methods=['POST'])
 def edit_transaction():
 
-    date = request.form['date']
-    date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+    try:
+        date = request.form['date']
+        date = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+    except ValueError:
+        date = ''
 
     vendor = request.form['vendor']
     category = request.form['category']
@@ -199,18 +202,23 @@ def edit_transaction():
     note = request.form['note']
     row_id = request.form['id']
 
-    # Get connection and create curosor
-    conn = get_db_connection()
-    cur = conn.cursor()
+    missing_fields = False
+    if date == '' or vendor == '' or amount == '':
+        missing_fields = True
 
-    # Edit transaction in database
-    cur.execute('UPDATE transactions SET date = %s, vendor = %s, category = %s, amount = %s, notes = %s WHERE id = %s',
-                (date, vendor, category, amount, note, row_id))
-    conn.commit()
+    if not missing_fields:
+        # Get connection and create curosor
+        conn = get_db_connection()
+        cur = conn.cursor()
 
-    # Close cursor and connection with database
-    cur.close()
-    conn.close()
+        # Edit transaction in database
+        cur.execute('UPDATE transactions SET date = %s, vendor = %s, category = %s, amount = %s, notes = %s'
+                    'WHERE id = %s', (date, vendor, category, amount, note, row_id))
+        conn.commit()
+
+        # Close cursor and connection with database
+        cur.close()
+        conn.close()
 
     return redirect(url_for('view'))
 
