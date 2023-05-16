@@ -305,6 +305,23 @@ def insights():
     plt.title("Income and Expenses")
     plt.savefig('static/images/pie_chart.png')
 
+    cur.execute('SELECT date, amount FROM transactions JOIN expenses ON transactions.category=expenses.subcategory')
+    expenses = cur.fetchall()
+
+    expenses = pd.DataFrame(expenses)
+    expenses.columns = [x[0] for x in cur.description]
+    expenses['date'] = pd.to_datetime(expenses['date'])
+    expenses['date'] = expenses['date'].dt.month.astype('int')
+    expenses = expenses.groupby('date').sum()
+    expenses = expenses.reindex(range(1, 13))
+    expenses = expenses.reset_index()
+
+    plt.bar(expenses['date'], expenses['amount'])
+    plt.xlabel('Month')
+    plt.ylabel('Amount')
+    plt.xticks([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    plt.savefig('static/images/bar_chart.png')
+
     # Close cursor and connection with database
     cur.close()
     conn.close()
