@@ -281,6 +281,30 @@ def upload_transactions():
     return render_template("upload.html", message=message, filename=filename)
 
 
+@app.route("/insights")
+def insights():
+    # Get connection and create cursor
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute('SELECT SUM(transactions.amount) FROM transactions '
+                'JOIN expenses ON transactions.category=expenses.subcategory')
+    total_expenses = cur.fetchall()
+
+    cur.execute('SELECT SUM(transactions.amount) FROM transactions '
+                'JOIN income ON transactions.category=income.subcategory')
+    total_income = cur.fetchall()
+
+    total_expenses = total_expenses[0][0]
+    total_income = total_income[0][0]
+
+    # Close cursor and connection with database
+    cur.close()
+    conn.close()
+
+    return render_template("insights.html", total_income=total_income, total_expenses=total_expenses)
+
+
 if __name__ == "__main__":
 
     app.run(debug=True)
