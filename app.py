@@ -4,6 +4,7 @@ import psycopg2
 from flask import Flask, render_template, request, redirect, url_for
 import datetime
 import pandas as pd
+import matplotlib.pyplot as plt
 
 load_dotenv()
 
@@ -298,6 +299,11 @@ def insights():
     total_expenses = total_expenses[0][0]
     total_income = total_income[0][0]
     net_income = total_income - total_expenses
+
+    pie_labels = ['Income', 'Expenses']
+    plt.pie([total_income, total_expenses], labels=pie_labels, startangle=90, autopct='%1.2f%%', counterclock=False)
+    plt.title("Income and Expenses")
+    plt.savefig('static/images/pie_chart.png')
 
     # Close cursor and connection with database
     cur.close()
