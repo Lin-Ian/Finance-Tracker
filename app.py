@@ -297,12 +297,14 @@ def insights():
 
     total_expenses = total_expenses[0][0]
     total_income = total_income[0][0]
+    net_income = total_income - total_expenses
 
     # Close cursor and connection with database
     cur.close()
     conn.close()
 
-    return render_template("insights.html", total_income=total_income, total_expenses=total_expenses)
+    return render_template("insights.html", total_income=total_income, total_expenses=total_expenses,
+                           net_income=net_income)
 
 
 if __name__ == "__main__":
