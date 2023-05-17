@@ -115,7 +115,7 @@ expense_data = [
     ('Saving', 'Investment'),
     ('TFSA', 'Investment'),
     ('RRSP', 'Investment'),
-    ('Non - registered', 'Investment'),
+    ('Non-registered', 'Investment'),
     ('Emergency Fund', 'Investment'),
     ('Debt Repayment', 'Investment'),
     ('Invest Miscellaneous', 'Investment'),
