@@ -398,7 +398,7 @@ def export_transactions():
 
     # Create filename
     date = datetime.datetime.now().strftime('%Y-%m-%d-%H%M%S')
-    filename = date + '-transactions.csv'
+    filename = f'exported_transactions/{date}-transactions.csv'
     data_df.to_csv(filename, index=False)
 
     # return 'data'
