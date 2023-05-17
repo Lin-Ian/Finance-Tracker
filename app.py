@@ -301,6 +301,7 @@ def insights():
     net_income = total_income - total_expenses
 
     pie_labels = ['Income', 'Expenses']
+    plt.figure()
     plt.pie([total_income, total_expenses], labels=pie_labels, startangle=90, autopct='%1.2f%%', counterclock=False)
     plt.title("Income and Expenses")
     plt.savefig('static/images/pie_chart.png')
@@ -331,7 +332,7 @@ def insights():
 
     net_income_df = income['amount'] - expenses['amount']
 
-    fig = plt.figure()
+    plt.figure()
     plt.bar(income['date'], income['amount'], label='Income')
     plt.bar(expenses['date'], -expenses['amount'], label='Expenses')
     plt.plot(income['date'], net_income_df, label='Net Income', color='green')
