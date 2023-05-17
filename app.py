@@ -54,10 +54,13 @@ def view():
     try:
         start_date = request.form['start_date']
         start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
+    except (KeyError, ValueError):
+        start_date = None
+
+    try:
         end_date = request.form['end_date']
         end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
     except (KeyError, ValueError):
-        start_date = None
         end_date = None
 
     try:
@@ -98,8 +101,14 @@ def view():
     data_df = pd.DataFrame(cur.fetchall(), columns=[x[0] for x in cur.description])
 
     # Get the transactions within a date range
-    if not (start_date is None and end_date is None):
+    if start_date is not None and end_date is not None:
         data_df = data_df[(data_df['date'] >= start_date) & (data_df['date'] <= end_date)]
+
+    elif start_date is None and end_date is not None:
+        data_df = data_df[data_df['date'] <= end_date]
+
+    elif start_date is not None and end_date is None:
+        data_df = data_df[data_df['date'] >= start_date]
 
     if category is not None:
         data_df = data_df[data_df['category'] == category]
