@@ -327,8 +327,10 @@ def insights():
     cur.execute('SELECT date, amount FROM transactions JOIN expenses ON transactions.category=expenses.subcategory')
     expenses = cur.fetchall()
 
-    expenses = pd.DataFrame(expenses)
-    expenses.columns = [x[0] for x in cur.description]
+    if not expenses:
+        expenses = pd.DataFrame(columns=[x[0] for x in cur.description])
+    else:
+        expenses = pd.DataFrame(expenses, columns=[x[0] for x in cur.description])
     expenses['date'] = pd.to_datetime(expenses['date'])
     expenses['date'] = expenses['date'].dt.month.astype('int')
     expenses = expenses.groupby('date').sum()
@@ -339,8 +341,10 @@ def insights():
     cur.execute('SELECT date, amount FROM transactions JOIN income ON transactions.category=income.subcategory')
     income = cur.fetchall()
 
-    income = pd.DataFrame(income)
-    income.columns = [x[0] for x in cur.description]
+    if not income:
+        income = pd.DataFrame(columns=['date', 'amount'])
+    else:
+        income = pd.DataFrame(income, columns=[x[0] for x in cur.description])
     income['date'] = pd.to_datetime(income['date'])
     income['date'] = income['date'].dt.month.astype('int')
     income = income.groupby('date').sum()
