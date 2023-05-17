@@ -95,8 +95,7 @@ def view():
     cur = conn.cursor()
 
     cur.execute('SELECT * FROM transactions')
-    data_df = pd.DataFrame(cur.fetchall())
-    data_df.columns = [x[0] for x in cur.description]
+    data_df = pd.DataFrame(cur.fetchall(), columns=[x[0] for x in cur.description])
 
     # Get the transactions within a date range
     if not (start_date is None and end_date is None):
