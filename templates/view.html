@@ -11,38 +11,43 @@
     <h2>Transactions</h2>
 
     <!--Filter menu-->
-    <form action="/view" method="post" class="filters">
+    <div class="filters">
+        <form action="/view" method="post">
 <!--        <label for="sort_by">Sort By:</label>-->
-        <!--Sort by menu-->
-        <select name="sort_by" id="sort_by">
-            <option value="default">Sort By:</option>
-            <option value="date_desc">Date Newest</option>
-            <option value="date_inc">Date Oldest</option>
-            <option value="amount_desc">Amount Decreasing</option>
-            <option value="amount_inc">Amount Increasing</option>
-        </select>
+            <!--Sort by menu-->
+            <select name="sort_by" id="sort_by">
+                <option value="default">Sort By:</option>
+                <option value="date_desc">Date Newest</option>
+                <option value="date_inc">Date Oldest</option>
+                <option value="amount_desc">Amount Decreasing</option>
+                <option value="amount_inc">Amount Increasing</option>
+            </select>
 <!--        <br>-->
-        <!--Start date-->
-        <label for="start_date">Start Date:</label>
-        <input type="date" id="start_date" name="start_date">
-        <!--End Date-->
-        <label for="end_date">End Date:</label>
-        <input type="date" id="end_date" name="end_date">
+            <!--Start date-->
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date">
+            <!--End Date-->
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date">
 <!--        <br>-->
-        <!--Category-->
-        <select name="category">
-            <option value="" disabled selected>Category</option>
-            {% for category in categories %}
-                <option value="{{category[0]}}">{{category[0]}}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <input type="text" name="vendor" class="vendor" placeholder="Vendor">
+            <!--Category-->
+            <select name="category">
+                <option value="" disabled selected>Category</option>
+                {% for category in categories %}
+                    <option value="{{category[0]}}">{{category[0]}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <input type="text" name="vendor" class="vendor" placeholder="Vendor">
 <!--        <br>-->
-        <input type="number" step=0.01 name="min_amount" id="min_amount" placeholder="Minimum Amount">
-        <input type="number" step=0.01 name="max_amount" id="max_amount" placeholder="Maximum Amount">
-        <input type="submit" value="Apply Filters">
-    </form>
+            <input type="number" step=0.01 name="min_amount" id="min_amount" placeholder="Minimum Amount">
+            <input type="number" step=0.01 name="max_amount" id="max_amount" placeholder="Maximum Amount">
+            <input type="submit" value="Apply Filters">
+        </form>
+        <form action="/export_transactions" method="post">
+            <input type="submit" value="Export">
+        </form>
+    </div>
 
     <!--Display Transactions-->
     <div class="view">

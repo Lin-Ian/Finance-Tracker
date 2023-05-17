@@ -73,6 +73,10 @@
     width: 100%;
 }
 
+.main .filters form {
+    display: inline;
+}
+
 .main .filters input, .main .filters select {
     display: inline-block;
     width: 170px;
