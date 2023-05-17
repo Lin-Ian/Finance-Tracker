@@ -389,8 +389,12 @@ def export_transactions():
     cur = conn.cursor()
 
     cur.execute('SELECT date, vendor, category, amount, notes FROM filtered_transactions')
-    data_df = pd.DataFrame(cur.fetchall())
-    data_df.columns = [x[0] for x in cur.description]
+    data = cur.fetchall()
+
+    if not data:
+        data_df = pd.DataFrame(columns=['date', 'vendor', 'category', 'amount', 'notes'])
+    else:
+        data_df = pd.DataFrame(data, columns=['date', 'vendor', 'category', 'amount', 'notes'])
 
     # Close cursor and connection with database
     cur.close()
