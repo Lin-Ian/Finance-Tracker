@@ -316,7 +316,22 @@ def insights():
     expenses = expenses.reindex(range(1, 13))
     expenses = expenses.reset_index()
 
-    plt.bar(expenses['date'], expenses['amount'])
+    cur.execute('SELECT date, amount FROM transactions JOIN income ON transactions.category=income.subcategory')
+    income = cur.fetchall()
+
+    income = pd.DataFrame(income)
+    income.columns = [x[0] for x in cur.description]
+    income['date'] = pd.to_datetime(income['date'])
+    income['date'] = income['date'].dt.month.astype('int')
+    income = income.groupby('date').sum()
+    income = income.reindex(range(1, 13))
+    income = income.reset_index()
+
+    fig = plt.figure()
+    plt.bar(income['date'], income['amount'])
+    plt.bar(expenses['date'], -expenses['amount'])
+    plt.legend(['Income', 'Expenses'])
+    plt.title('Income and Expenses Over Time')
     plt.xlabel('Month')
     plt.ylabel('Amount')
     plt.xticks([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
