@@ -317,6 +317,13 @@ def insights():
         total_income = 0
     net_income = total_income - total_expenses
 
+    try:
+        savings_rate = net_income / total_income * 100
+        savings_rate = "%.2f" % savings_rate
+    except ZeroDivisionError:
+        savings_rate = 0
+    print(savings_rate)
+
     pie_labels = ['Income', 'Expenses']
     plt.figure()
     try:
@@ -372,7 +379,7 @@ def insights():
     conn.close()
 
     return render_template("insights.html", total_income=total_income, total_expenses=total_expenses,
-                           net_income=net_income)
+                           net_income=net_income, savings_rate=savings_rate)
 
 
 @app.route("/export_transactions")
