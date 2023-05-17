@@ -124,10 +124,10 @@ def view():
     if min_amount is not None and max_amount is not None:
         data_df = data_df[(data_df['amount'] > min_amount) & (data_df['amount'] < max_amount)]
 
-    if min_amount is None and max_amount is not None:
+    elif min_amount is None and max_amount is not None:
         data_df = data_df[data_df['amount'] < max_amount]
 
-    if min_amount is not None and max_amount is None:
+    elif min_amount is not None and max_amount is None:
         data_df = data_df[data_df['amount'] > min_amount]
 
     data = data_df.values.tolist()
