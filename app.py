@@ -319,7 +319,10 @@ def insights():
 
     pie_labels = ['Income', 'Expenses']
     plt.figure()
-    plt.pie([total_income, total_expenses], labels=pie_labels, startangle=90, autopct='%1.2f%%', counterclock=False)
+    try:
+        plt.pie([total_income, total_expenses], labels=pie_labels, startangle=90, autopct='%1.2f%%', counterclock=False)
+    except ValueError:
+        print("Income and expenses are zero")
     plt.title("Income and Expenses")
     plt.savefig('static/images/pie_chart.png')
 
