@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import psycopg2
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_file
 import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -123,6 +123,20 @@ def view():
         data_df = data_df[data_df['amount'] > min_amount]
 
     data = data_df.values.tolist()
+
+    cur.execute('DROP TABLE IF EXISTS filtered_transactions;')
+    cur.execute('CREATE TABLE filtered_transactions (id serial PRIMARY KEY,'
+                                                     'date date NOT NULL,'
+                                                     'vendor varchar (50) NOT NULL,'
+                                                     'category varchar (50) NOT NULL,'
+                                                     'amount decimal NOT NULL,'
+                                                     'notes varchar (100));')
+
+    for col, row in data_df.iterrows():
+        values = (row['date'], row['vendor'], row['category'], row['amount'], row['notes'])
+        cur.execute('INSERT INTO filtered_transactions (date, vendor, category, amount, notes)'
+                    'VALUES (%s, %s, %s, %s, %s)', values)
+    conn.commit()
 
     # Get the subcategories from the expenses table
     cur.execute('SELECT subcategory FROM expenses')
@@ -297,7 +311,11 @@ def insights():
     total_income = cur.fetchall()
 
     total_expenses = total_expenses[0][0]
+    if total_expenses is None:
+        total_expenses = 0
     total_income = total_income[0][0]
+    if total_income is None:
+        total_income = 0
     net_income = total_income - total_expenses
 
     pie_labels = ['Income', 'Expenses']
@@ -349,6 +367,29 @@ def insights():
 
     return render_template("insights.html", total_income=total_income, total_expenses=total_expenses,
                            net_income=net_income)
+
+
+@app.route("/export_transactions")
+def export_transactions():
+    # Get connection and create cursor
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute('SELECT date, vendor, category, amount, notes FROM filtered_transactions')
+    data_df = pd.DataFrame(cur.fetchall())
+    data_df.columns = [x[0] for x in cur.description]
+
+    # Close cursor and connection with database
+    cur.close()
+    conn.close()
+
+    # Create filename
+    date = datetime.datetime.now().strftime('%Y-%m-%d-%H%M%S')
+    filename = date + '-transactions.csv'
+    data_df.to_csv(filename, index=False)
+
+    # return 'data'
+    return send_file(filename, as_attachment=True)
 
 
 if __name__ == "__main__":
