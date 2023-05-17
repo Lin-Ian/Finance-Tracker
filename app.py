@@ -366,7 +366,7 @@ def insights():
     plt.figure()
     plt.bar(income['date'], income['amount'], label='Income')
     plt.bar(expenses['date'], -expenses['amount'], label='Expenses')
-    plt.plot(income['date'], net_income_df, label='Net Income', color='green')
+    plt.plot(income['date'], net_income_df, label='Net Income', color='black')
     plt.legend()
     plt.title('Income and Expenses Over Time')
     plt.xlabel('Month')
