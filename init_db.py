@@ -111,7 +111,7 @@ expense_data = [
     ('Pharmacy', 'Health'),
     ('Physiotherapy', 'Health'),
     ('Optometry', 'Health'),
-    ('Heath Miscellaneous', 'Health'),
+    ('Health Miscellaneous', 'Health'),
     ('Saving', 'Investment'),
     ('TFSA', 'Investment'),
     ('RRSP', 'Investment'),
