@@ -25,24 +25,24 @@ cur.execute('CREATE TABLE transactions (id serial PRIMARY KEY,'
                                         'notes varchar (100));'
             )
 
-# Insert data into the table
-cur.execute('INSERT INTO transactions (date, vendor, category, amount, notes)'
-            'VALUES (%s, %s, %s, %s, %s)',
-            ('2023-03-20',
-             'Valu-Mart',
-             'Groceries',
-             10.98,
-             '')
-            )
-
-cur.execute('INSERT INTO transactions (date, vendor, category, amount, notes)'
-            'VALUES (%s, %s, %s, %s, %s)',
-            ('2023-01-09',
-             'University of Waterloo',
-             'Tuition',
-             5000,
-             '')
-            )
+# # Insert data into the table
+# cur.execute('INSERT INTO transactions (date, vendor, category, amount, notes)'
+#             'VALUES (%s, %s, %s, %s, %s)',
+#             ('2023-03-20',
+#              'Valu-Mart',
+#              'Groceries',
+#              10.98,
+#              '')
+#             )
+#
+# cur.execute('INSERT INTO transactions (date, vendor, category, amount, notes)'
+#             'VALUES (%s, %s, %s, %s, %s)',
+#             ('2023-01-09',
+#              'University of Waterloo',
+#              'Tuition',
+#              5000,
+#              '')
+#             )
 
 # Execute a command: this creates a new table
 cur.execute('DROP TABLE IF EXISTS income;')
