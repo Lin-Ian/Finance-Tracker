@@ -315,6 +315,7 @@ def insights():
     expenses = expenses.groupby('date').sum()
     expenses = expenses.reindex(range(1, 13))
     expenses = expenses.reset_index()
+    expenses = expenses.fillna(0)
 
     cur.execute('SELECT date, amount FROM transactions JOIN income ON transactions.category=income.subcategory')
     income = cur.fetchall()
@@ -326,11 +327,15 @@ def insights():
     income = income.groupby('date').sum()
     income = income.reindex(range(1, 13))
     income = income.reset_index()
+    income = income.fillna(0)
+
+    net_income_df = income['amount'] - expenses['amount']
 
     fig = plt.figure()
-    plt.bar(income['date'], income['amount'])
-    plt.bar(expenses['date'], -expenses['amount'])
-    plt.legend(['Income', 'Expenses'])
+    plt.bar(income['date'], income['amount'], label='Income')
+    plt.bar(expenses['date'], -expenses['amount'], label='Expenses')
+    plt.plot(income['date'], net_income_df, label='Net Income', color='green')
+    plt.legend()
     plt.title('Income and Expenses Over Time')
     plt.xlabel('Month')
     plt.ylabel('Amount')
