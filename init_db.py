@@ -6,11 +6,10 @@ import psycopg2
 load_dotenv()
 
 # Connect to database
-conn = psycopg2.connect(
-        host="localhost",
-        database="finance_tracker",
-        user=os.environ['DB_USERNAME'],
-        password=os.environ['DB_PASSWORD'])
+conn = psycopg2.connect(host=os.environ['DB_HOST'],
+                        database=os.environ['DB_NAME'],
+                        user=os.environ['DB_USERNAME'],
+                        password=os.environ['DB_PASSWORD'])
 
 # Open a cursor to perform database operations
 cur = conn.cursor()
