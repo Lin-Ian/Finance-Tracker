@@ -59,7 +59,7 @@ Open the localhost link, and you're ready to start tracking your transactions no
 ### Upload
 - Upload transactions stored in a CSV file if there are too many to enter one at a time
 
-- <img src="media/upload.png" alt="Screenshot of upload page" width="500">
+<img src="media/upload.png" alt="Screenshot of upload page" width="500">
 
 ### Insights
 - Gain more insights about your transactions
