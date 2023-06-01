@@ -23,7 +23,7 @@ This project is created with:
 - matplotlib 3.7.1
 - PostgreSQL 15.2
 
-This project is hosted on:
+This project is hosted on Microsoft Azure
 
 ## Installation
 1. Clone the repository
