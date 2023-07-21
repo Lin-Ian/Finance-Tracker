@@ -108,10 +108,6 @@
     margin-top: 20px;
 }
 
-.main .view select {
-    margin-top: 20px;
-}
-
 .main .view input, .main .view select {
     display: inline;
     width: 150px;
