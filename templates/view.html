@@ -52,50 +52,69 @@
 
     <!--Display Transactions-->
     <div class="view">
-    {% for row in data %}
-    <tr>
-<!--        <td>{{ row[0] }}</td>-->
-<!--        <td>{{ row[1] }}</td>-->
-<!--        <td>{{ row[2] }}</td>-->
-<!--        <td>{{ row[3] }}</td>-->
-<!--        <td>{{ row[4] }}</td>-->
-<!--        <td>{{ row[5] }}</td>-->
+        <table>
+            <!--Table headers-->
+            <tr>
+                <th>Date</th>
+                <th>Vendor</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Notes</th>
+            </tr>
 
-        <!--Update transactions-->
-        <td>
-            <div class="entry">
-                <!--One row of data-->
-                <form action="/update" method="post">
-                    <!--Id column-->
-                    <input type="hidden" name="id" value="{{ row[0] }}">
-                    <!--Date column-->
-                    <input type="date" name="date" value="{{ row[1] }}">
-                    <!--Vendor column-->
-                    <input type="text" name="vendor" value="{{ row[2] }}">
-                    <!--Category column-->
-                    <select name="category" id="category">
-                        <option value="{{ row[3] }}">{{ row[3] }}</option>
-                        {% for category in categories %}
-                            <option value="{{category[0]}}">{{category[0]}}</option>
-                        {% endfor %}
-                    </select>
-                    <!--Amount column-->
-                    <input type="number" name="amount" step=0.01 value="{{ row[4] }}">
-                    <!--Notes column-->
-                    <input type="text" name="note" value="{{ row[5] }}">
-                    <input type="submit" value="Update">
-                </form>
+            <!--Display data-->
+            {% for row in data %}
+            <tr>
+                <!--Update transactions-->
+<!--                <td>-->
+                    <div class="entry">
+                        <!--One row of data-->
+                        <form action="/update" method="post">
+                            <!--Id column-->
+                            <input type="hidden" name="id" value="{{ row[0] }}">
+                            <!--Date column-->
+                            <td>
+                                <input type="date" name="date" value="{{ row[1] }}">
+                            </td>
+                            <!--Vendor column-->
+                            <td>
+                                <input type="text" name="vendor" value="{{ row[2] }}">
+                            </td>
+                            <!--Category column-->
+                            <td>
+                                <select name="category" id="category">
+                                    <option value="{{ row[3] }}">{{ row[3] }}</option>
+                                    {% for category in categories %}
+                                        <option value="{{category[0]}}">{{category[0]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <!--Amount column-->
+                            <td>
+                                <input type="number" name="amount" step=0.01 value="{{ row[4] }}">
+                            </td>
+                            <!--Notes column-->
+                            <td>
+                                <input type="text" name="note" value="{{ row[5] }}">
+                            </td>
+                            <!--Submit button-->
+                            <td>
+                                <input type="submit" value="Update">
+                            </td>
+                        </form>
 
-                <!--Delete transaction-->
-                <form action="/delete" method="post">
-                    <input type="hidden" name="id" value="{{ row[0] }}">
-                    <input type="submit" value="Delete">
-                </form>
-            </div>
-        </td>
-    </tr>
-    {% endfor %}
-
+                        <!--Delete transaction-->
+                        <td>
+                            <form action="/delete" method="post">
+                                <input type="hidden" name="id" value="{{ row[0] }}">
+                                <input type="submit" value="Delete">
+                            </form>
+                        </td>
+                    </div>
+<!--                </td>-->
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 
     {% endblock %}
