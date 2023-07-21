@@ -47,7 +47,7 @@ def home():
 def view():
 
     try:
-        sort_by = request.form['sort_by']
+        sort_by = request.form['g_by']
     except KeyError:
         sort_by = 'default'
 
@@ -97,7 +97,7 @@ def view():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    cur.execute('SELECT * FROM transactions')
+    cur.execute('SELECT * FROM transactions ORDER BY id')
     data_df = pd.DataFrame(cur.fetchall(), columns=[x[0] for x in cur.description])
 
     # Get the transactions within a date range
