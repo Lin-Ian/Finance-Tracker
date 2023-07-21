@@ -13,17 +13,20 @@ A Flask web application with a PostgreSQL database to track and monitor financia
   - [Insights](#insights)
 
 ## Motivation and Outcomes
-I wanted to consolidate all my financial transactions into a single place to 
+I wanted to consolidate all my financial transactions into a single place to better manage my own finances.
+I created a Flask web application to perform CRUD operations to store and manage my financial transactions to be stored in a PostgreSQL database.
+I was able to create and connect my interactive Power BI report to the database to gain additional insights to my financial transactions.
+You can view a PDF version of the Power BI report here: [PDF Power BI Report](media/Finance%20Tracker%20Power%20BI%20Report.pdf)
 
 ## Technologies
-This project is created with:
+This project was created with:
 - Python 3.10
 - Flask 2.3.2
 - pandas 2.0.1
 - matplotlib 3.7.1
 - PostgreSQL 15.2
-
-This project is hosted on Microsoft Azure
+- Microsoft Azure
+- Power BI Desktop
 
 ## Installation
 1. Clone the repository
@@ -34,7 +37,12 @@ $ git clone https://github.com/Lin-Ian/Finance-Tracker.git
 ```
 pip install -r requirements.txt
 ```
-3. Run
+4. Set up the PostgreSQL Database and .env file for the application
+5. Set up the Database Tables
+```
+py init_db.py
+```
+5. Run the application
 ```
 py app.py
 ```
