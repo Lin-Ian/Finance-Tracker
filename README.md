@@ -20,11 +20,11 @@ You can view a PDF version of the Power BI report here: [PDF Power BI Report](me
 
 ## Technologies
 This project was created with:
-- Python 3.10
-- Flask 2.3.2
-- pandas 2.0.1
-- matplotlib 3.7.1
-- PostgreSQL 15.2
+- Python
+- Flask
+- pandas
+- matplotlib
+- PostgreSQL
 - Microsoft Azure
 - Power BI Desktop
 
@@ -37,8 +37,14 @@ $ git clone https://github.com/Lin-Ian/Finance-Tracker.git
 ```
 pip install -r requirements.txt
 ```
-4. Set up the PostgreSQL Database and .env file for the application
-5. Set up the Database Tables
+3. Set up the PostgreSQL Database and .env file for the application
+```
+DB_HOST=database_host
+DB_NAME=database_name
+DB_USERNAME=database_username
+DB_PASSWORD=database_password
+```
+4. Set up the Database Tables
 ```
 py init_db.py
 ```
